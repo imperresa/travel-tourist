@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 export function HomePage() {
   let [search, setSearch] = useState("");
+
   let [trips, setTrip] = useState([]);
 
   let homepage = async () => {
@@ -14,8 +15,12 @@ export function HomePage() {
   let handleChange = (e) => {
     setSearch(e.target.value);
   };
+  let handlerClick = (e) => {
+    let text = search ? `${search} ${e}` : e;
+    setSearch(text);
+  };
   useEffect(() => {
-    homepage();
+    homepage(search);
   }, [search]);
   return (
     <>
@@ -37,18 +42,37 @@ export function HomePage() {
         {trips.map((trip) => {
           return (
             <div key={trip.eid} className="trip-card">
-              <div className="trip-photos">
-                <img src={trip.photos[0]} />
-              </div>
+              <div className="trip-photos"><img className="img" src={trip.photos[0]}></img></div>
               <div className="content">
-                <a href={trip.url} target="_blank"><h2>{trip.title}</h2></a>
+                <a href={trip.url} target="_blank">
+                  <h2>{trip.title}</h2>
+                </a>
                 <p>{trip.description.slice(0, 100)}</p>
-                <a href={trip.url} target="_blank" >อ่านต่อ</a>
-                <p className="trip-tags">หมวด <span>{trip.tags[0]}</span> <span>{trip.tags[1]}</span> <span>{trip.tags[2]}</span> <span>{trip.tags[3]}</span><span>{trip.tags[4]}</span></p>
+                <a href={trip.url} target="_blank">
+                  อ่านต่อ
+                </a>
+                <p className="trip-tags">
+                  หมวด
+                  {trip.tags.map((tag, i) => {
+                    return trip.tags.length - 1 !== i ? (
+                      <span key={i} onClick={() => handlerClick(tag)}>
+                        {tag}
+                      </span>
+                    ) : null;
+                  })}
+                  และ
+                  {trip.tags.map((tag, i) => {
+                    return trip.tags.length - 1 === i ? (
+                      <span key={i} onClick={() => handlerClick(tag)}>
+                        {tag}
+                      </span>
+                    ) : null;
+                  })}
+                </p>
                 <div className="img-box">
-                    <img src={trip.photos[1]}/>
-                    <img src={trip.photos[2]}/>
-                    <img src={trip.photos[3]}/>
+                  {trip.photos.map((photo, i) => {
+                    return i > 0 ? <img src={photo} /> : null;
+                  })}
                 </div>
               </div>
             </div>
