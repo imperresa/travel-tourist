@@ -10,7 +10,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-  res.send(trips);
+  res.send("Hello World!");
 });
 
 app.get("/trips", (req, res) => {
