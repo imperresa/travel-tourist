@@ -7,7 +7,7 @@ export function HomePage() {
 
   let homepage = async () => {
     let response = await axios.get(
-      `https://travel-tourist-rd45.vercel.app/trips?keywords=${search}`
+      `https://travel-tourist-9n19.vercel.app/trips?keywords=${search}`
     );
     setTrip(response.data.data);
     console.log(response.data);
